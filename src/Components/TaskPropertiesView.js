@@ -1,62 +1,162 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/core/Slider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
-const drawerWidth = 240;
+const theme = createMuiTheme({
+    overrides: {
+        MuiSlider: {
+            thumb: {
+                color: "#009688"
+            },
+            track: {
+                color: "#009688"
+            },
+            rail: {
+                color: "white"
+            }
+        }
+    }
+});
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        display: "flex"
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0
-    },
-    drawerPaper: {
-        width: drawerWidth
-    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3)
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
+    textField: {
+        background: "#858585",
+        color: "white"
+    },
+    label: {
+        color: "white"
+    },
+    title: {
+        color: "white"
+    },
+    input: {
+        background: "#858585 !important",
+        color: "white !important",
+        borderColor: "white"
+    },
+    inputFocused: {
+        color: "white !important",
+        borderColor: "white"
+    },
+    greenButton: {
+        color: "white",
+        background: "#4CAF50"
+    },
+    redButton: {
+        color: "white",
+        background: "#EF5350"
+    },
+    priority: {
+        colorPrimary: "white",
+        background: "linear-gradient(45deg, #F44336 0%, #4CAF50 100%)"
+    }
 }));
 
-export default function ClippedDrawer() {
+export default function ClippedDrawer(props) {
     const classes = useStyles();
 
     return (
         <>
             <div className={classes.toolbar} />
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {["All mail", "Trash", "Spam"].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                <ListItem>
+                    <Typography className={classes.title} variant="h5">
+                        New task
+                    </Typography>
+                </ListItem>
+                <ListItem>
+                    <TextField
+                        error={
+                            false /*https://stackoverflow.com/questions/35901440/how-to-invalidate-a-textfield-in-material-ui*/
+                        }
+                        FormHelperTextProps={{ className: classes.label }}
+                        InputLabelProps={{
+                            className: classes.label,
+                            classes: { focused: classes.inputFocused }
+                        }}
+                        InputProps={{
+                            className: classes.input,
+                            classes: { focused: classes.input }
+                        }}
+                        id="titleField"
+                        onChange={props.onChange}
+                        label="Title"
+                        helperText=""
+                        variant="filled"
+                        fullWidth={true}
+                    />
+                </ListItem>
+                <ListItem>
+                    <TextField
+                        FormHelperTextProps={{ className: classes.label }}
+                        InputLabelProps={{
+                            className: classes.label,
+                            classes: { focused: classes.inputFocused }
+                        }}
+                        InputProps={{
+                            className: classes.input,
+                            classes: { focused: classes.input }
+                        }}
+                        id="detailsField"
+                        onChange={props.onChange}
+                        label="Details"
+                        multiline
+                        rows="5"
+                        variant="filled"
+                        fullWidth={true}
+                    />
+                </ListItem>
+                <ListItem style={{ paddingBottom: "2px" }}>
+                    <Typography className={classes.title} variant="body1">
+                        Priority:
+                    </Typography>
+                </ListItem>
+                <ListItem>
+                    <ThemeProvider theme={theme}>
+                        <Slider
+                            id="priorityValue"
+                            onChange={props.onChange}
+                            className={classes.priority}
+                            defaultValue={3}
+                            aria-labelledby="discrete-slider"
+                            aria-label="Priority"
+                            valueLabelDisplay="auto"
+                            step={1}
+                            marks
+                            min={1}
+                            max={5}
+                        />
+                    </ThemeProvider>
+                </ListItem>
+                <ListItem>
+                    <Grid container className={classes.root} spacing={2}>
+                        <Grid item xs={12}>
+                            <Grid container justify="space-between">
+                                <Button className={classes.redButton} variant="contained">
+                                    Reset
+                                </Button>
+                                <Button
+                                    className={classes.greenButton}
+                                    variant="contained"
+                                    onClick={props.createButton}
+                                >
+                                    Create
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ListItem>
             </List>
         </>
     );

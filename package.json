@@ -8,6 +8,7 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.4.0",
         "@testing-library/user-event": "^7.2.1",
+        "material-ui-color-picker": "^3.2.0",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
         "react-router": "^5.1.2",
@@ -34,5 +35,6 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "proxy": "http://ec2-18-196-1-182.eu-central-1.compute.amazonaws.com:8080"
 }

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import NavBarController from "./Components/NavBarController";
-import TaskPropertiesController from "./Components/TaskPropertiesController";
+import ViewContainer from "./Components/ViewContainer";
 
+///EEEEEEE
 const history = createBrowserHistory();
 
 class App extends Component {
@@ -15,8 +15,7 @@ class App extends Component {
             <Router history={history}>
                 <Switch>
                     <Route path="/*">
-                        <NavBarController />
-                        <TaskPropertiesController />
+                        <ViewContainer />
                     </Route>
                 </Switch>
             </Router>

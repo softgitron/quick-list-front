@@ -38,17 +38,28 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     appBar: {
-        zIndex: 1000000
+        zIndex: 100000
+    },
+    textField: {
+        background: "#00786D",
+        color: "white"
+    },
+    search: {
+        color: "white"
+    },
+    searchFocused: {
+        color: "white !important",
+        borderColor: "white"
     }
 }));
-
+//REEEE
 export default function NavBarView() {
     const styles = useStyles();
 
     return (
         <MuiThemeProvider theme={theme}>
             <AppBar className={styles.appBar} position="fixed">
-                <Toolbar>
+                <Toolbar color="inherit">
                     <IconButton
                         edge="start"
                         className={styles.menuButton}
@@ -66,8 +77,15 @@ export default function NavBarView() {
                         /* value={} */
                         variant="filled"
                         font-color="inherit"
+                        className={styles.textField}
                         /* onChange={this.handleChange} */
+                        FormHelperTextProps={{ className: styles.search }}
+                        InputLabelProps={{
+                            className: styles.search,
+                            classes: { focused: styles.searchFocused }
+                        }}
                         InputProps={{
+                            className: styles.search,
                             endAdornment: (
                                 <InputAdornment position="end">
                                     <SearchIcon />
