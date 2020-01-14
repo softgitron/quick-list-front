@@ -7,6 +7,10 @@ import Slider from "@material-ui/core/Slider";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import {
+    KeyboardTimePicker,
+    DatePicker
+} from '@material-ui/pickers';
 
 const theme = createMuiTheme({
     overrides: {
@@ -138,6 +142,26 @@ export default function ClippedDrawer(props) {
                             max={5}
                         />
                     </ThemeProvider>
+                </ListItem>
+                <ListItem>
+                    <KeyboardTimePicker
+                        margin="normal"
+                        id="time-picker"
+                        label="Time picker"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change time',
+                        }}
+                    />
+                </ListItem>
+                <ListItem>
+                    <DatePicker
+                        autoOk
+                        orientation="portrait"
+                        variant="static"
+                        openTo="date"
+                    />
                 </ListItem>
                 <ListItem>
                     <Grid container className={classes.root} spacing={2}>
