@@ -12,10 +12,11 @@ const styles = theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        background: "#666666"
+        background: "#666666",
+        color: "#FFFFFF"
     }
 });
-//REEEEE
+
 class TaskPropertiesController extends Component {
     constructor(props) {
         super(props);
@@ -23,22 +24,50 @@ class TaskPropertiesController extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             titleField: "",
-            detailsField: ""
+            detailsField: "",
+            dateField: new Date(Date.now()),
+            timeField: new Date(Date.now()),
+            finalDateField: null,
+            priorityValue: null
         };
     }
 
     createDeadlineButton() {
-        console.log(this.state.titleField);
-        console.log(this.state.detailsField);
+        const finalDate = new Date(
+            this.state.dateField.getFullYear(),
+            this.state.dateField.getMonth(),
+            this.state.dateField.getDate(),
+            this.state.timeField.getHours(),
+            this.state.timeField.getMinutes(),
+            this.state.timeField.getSeconds()
+        );
+        this.setState({ finalDateField: finalDate });
+        this.props.createDeadline(
+            "454a15c5-7f2d-4469-8b8e-2f815ae8114b",
+            this.state.titleField,
+            this.state.detailsField,
+            finalDate,
+            this.state.priorityValue
+        );
     }
 
     handleChange(e, val) {
-        if (e.target.type === "checkbox") {
+        //console.log(e);
+        if (e.id) {
+            if (isNaN(e.date)) {
+            } else if (e.id === "timePicker") {
+                this.setState({ timeField: e.date });
+            } else if (e.id === "datePicker") {
+                this.setState({ dateField: e.date });
+            }
+        } else if (e.target.type === "checkbox") {
             this.setState({ [e.target.id]: e.target.checked });
         } else if (e.target.type === "text" || e.target.type === "textarea") {
             this.setState({ [e.target.id]: e.target.value });
         } else {
-            if (e.target.parentElement.id) {
+            if (!e.target.parentElement) {
+            } else if (!e.target.parentElement.id) {
+            } else {
                 this.setState({ [e.target.parentElement.id]: val });
             }
         }
