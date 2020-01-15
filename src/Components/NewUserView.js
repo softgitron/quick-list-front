@@ -9,6 +9,7 @@ import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/sty
 import Container from "@material-ui/core/Container";
 import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from "@material-ui/icons/Cancel";
+import TextField from "@material-ui/core/TextField";
 import { Link as RouterLink } from "react-router-dom";
 
 function Copyright() {
@@ -78,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Account() {
+export default function NewUser(props) {
     const classes = useStyles();
 
     return (
@@ -100,28 +101,31 @@ export default function Account() {
                             <LockOutlinedIcon color={"secondary"} />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Create account
                         </Typography>
                         <div className={classes.form}>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                onChange={props.emailChange}
+                                autoComplete="email"
+                                autoFocus
+                            />
                             <Button
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                component={RouterLink}
-                                to={"/signIn"}
+                                onClick={() => {
+                                    props.sendEmail();
+                                }}
                             >
-                                Sign In
-                            </Button>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                component={RouterLink}
-                                to={"/newAccount"}
-                            >
-                                Create a new user
+                                Create user
                             </Button>
                             <Button
                                 fullWidth
@@ -129,7 +133,7 @@ export default function Account() {
                                 color="primary"
                                 className={classes.back}
                                 component={RouterLink}
-                                to={"/"}
+                                to={"/account"}
                             >
                                 Go back
                             </Button>

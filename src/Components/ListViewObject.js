@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
     card: {
         marginBottom: "1vmin",
-        marginLeft: "3.5%",
+        marginLeft: "3%",
         marginRight: "3%",
         background: "#ECEFF1"
     },
@@ -41,7 +41,8 @@ const useStyles = makeStyles(theme => ({
     },
     ListItem: {
         paddingTop: "0px",
-        paddingBottom: "0px"
+        paddingBottom: "0px",
+        wordBreak: "break-word"
     },
     buttons: {
         color: "#666666",
@@ -53,6 +54,10 @@ const useStyles = makeStyles(theme => ({
     },
     gridCenter: {
         display: "flex"
+    },
+    margin: {
+        paddingLeft: "6px",
+        padding: "0px"
     }
 }));
 
@@ -88,7 +93,7 @@ export default function ListObject(props) {
             <Card className={classes.card}>
                 <CardContent classes={{ root: classes.cardRoot }}>
                     <Grid container spacing={0}>
-                        <Grid item xs={1}>
+                        <Grid item lg={1} md={1} xs={1}>
                             <Grid
                                 container
                                 classes={{ root: classes.gridCenter }}
@@ -97,15 +102,16 @@ export default function ListObject(props) {
                                 <Checkbox
                                     className={classes.checkBox}
                                     color={"primary"}
-                                    checked={props.checked}
+                                    checked={props.completed}
                                     onChange={() => {
                                         console.log("Mitä mun pitäis tehdä? T: checkbox");
+                                        props.toggleCompletion(props.number, !props.completed);
                                     }}
                                     value="primary"
                                 />
                             </Grid>
                         </Grid>
-                        <Grid item xs={7}>
+                        <Grid item lg={8} md={7} xs={6}>
                             <List>
                                 <ListItem classes={{ root: classes.ListItem }}>
                                     <Typography variant="h6">{props.title}</Typography>
@@ -115,17 +121,19 @@ export default function ListObject(props) {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid className={classes.date} item xs={2}>
+                        <Grid className={classes.date} item lg={2} md={2} xs={2}>
                             <Grid
                                 container
                                 alignContent="flex-end"
                                 alignItems="flex-end"
                                 justify="flex-end"
                             >
-                                <Typography variant="subtitle2">{props.date}</Typography>
+                                <Typography align={"right"} variant="subtitle2">
+                                    {props.date}
+                                </Typography>
                             </Grid>
                         </Grid>
-                        <Grid classes={{ root: classes.gridCenter }} item xs={2}>
+                        <Grid classes={{ root: classes.gridCenter }} item lg={1} md={2} xs={3}>
                             <Grid container alignItems="center" justify="flex-end">
                                 <div style={circleStyle} />
                                 <IconButton

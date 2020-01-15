@@ -9,6 +9,8 @@ import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/sty
 import Container from "@material-ui/core/Container";
 import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from "@material-ui/icons/Cancel";
+import TextField from "@material-ui/core/TextField";
+import QrReader from "react-qr-reader";
 import { Link as RouterLink } from "react-router-dom";
 
 function Copyright() {
@@ -78,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Account() {
+export default function SignIn(props) {
     const classes = useStyles();
 
     return (
@@ -100,28 +102,36 @@ export default function Account() {
                             <LockOutlinedIcon color={"secondary"} />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Create account
                         </Typography>
                         <div className={classes.form}>
+                            <QrReader
+                                delay={300}
+                                showViewFinder={true}
+                                onError={value => {}}
+                                onScan={value => {}}
+                                style={{ width: "100%" }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                onChange={props.idChange}
+                                label="Authentication code"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                            />
                             <Button
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                component={RouterLink}
-                                to={"/signIn"}
+                                onClick={props.loadCookie}
                             >
-                                Sign In
-                            </Button>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                component={RouterLink}
-                                to={"/newAccount"}
-                            >
-                                Create a new user
+                                Submit
                             </Button>
                             <Button
                                 fullWidth
@@ -129,7 +139,7 @@ export default function Account() {
                                 color="primary"
                                 className={classes.back}
                                 component={RouterLink}
-                                to={"/"}
+                                to={"/account"}
                             >
                                 Go back
                             </Button>

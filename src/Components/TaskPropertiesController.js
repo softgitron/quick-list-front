@@ -1,21 +1,7 @@
 import React, { Component } from "react";
 import TaskPropertiesView from "./TaskPropertiesView";
-import { withStyles } from "@material-ui/styles";
-import Drawer from "@material-ui/core/Drawer";
-
-const drawerWidth = "25vw";
-
-const styles = theme => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0
-    },
-    drawerPaper: {
-        width: drawerWidth,
-        background: "#666666",
-        color: "#FFFFFF"
-    }
-});
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 class TaskPropertiesController extends Component {
     constructor(props) {
@@ -28,7 +14,7 @@ class TaskPropertiesController extends Component {
             dateField: new Date(Date.now()),
             timeField: new Date(Date.now()),
             finalDateField: null,
-            priorityValue: null
+            priorityValue: 3
         };
     }
 
@@ -42,8 +28,8 @@ class TaskPropertiesController extends Component {
             this.state.timeField.getSeconds()
         );
         this.setState({ finalDateField: finalDate });
+        this.props.renderOnlyProperties(false);
         this.props.createDeadline(
-            "454a15c5-7f2d-4469-8b8e-2f815ae8114b",
             this.state.titleField,
             this.state.detailsField,
             finalDate,
@@ -74,24 +60,33 @@ class TaskPropertiesController extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        return (
-            <>
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
-                        paper: classes.drawerPaper
+        let top;
+        if (this.props.hideProperties) {
+            top = (
+                <IconButton
+                    variant="contained"
+                    color="primary"
+                    style={{ color: "white" }}
+                    onClick={() => {
+                        this.props.renderOnlyProperties(false);
                     }}
                 >
-                    <TaskPropertiesView
-                        createButton={this.createDeadlineButton}
-                        onChange={this.handleChange}
-                    />
-                </Drawer>
-            </>
+                    <ArrowBackIcon />
+                </IconButton>
+            );
+        } else {
+            top = <div style={{ height: "64px" }} />;
+        }
+        return (
+            <div style={{ backgroundColor: "#666666", color: "white" }}>
+                {top}
+                <TaskPropertiesView
+                    createButton={this.createDeadlineButton}
+                    onChange={this.handleChange}
+                />
+            </div>
         );
     }
 }
 
-export default withStyles(styles)(TaskPropertiesController);
+export default TaskPropertiesController;

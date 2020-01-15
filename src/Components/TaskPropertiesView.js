@@ -58,10 +58,6 @@ const theme = createMuiTheme({
 #4CAF50
 */
 const useStyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3)
-    },
     toolbar: theme.mixins.toolbar,
     greenButton: {
         color: "white",
@@ -93,7 +89,6 @@ export default function ClippedDrawer(props) {
 
     return (
         <>
-            <div className={classes.toolbar} />
             <ThemeProvider theme={theme}>
                 <List>
                     <ListItem>

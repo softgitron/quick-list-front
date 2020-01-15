@@ -11,6 +11,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
+import { Link as RouterLink } from "react-router-dom";
 
 const theme = createMuiTheme({
     palette: {
@@ -42,7 +43,8 @@ const useStyles = makeStyles(theme => ({
     },
     textField: {
         background: "#00786D",
-        color: "white"
+        color: "white",
+        maxWidth: "45%"
     },
     search: {
         color: "white"
@@ -69,7 +71,7 @@ export default function NavBarView() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={styles.title}>
-                        Quick List
+                        QList
                     </Typography>
                     <TextField
                         id="filled-basic"
@@ -93,7 +95,7 @@ export default function NavBarView() {
                             )
                         }}
                     />
-                    <Button color="inherit" href="/account">
+                    <Button color="inherit" component={RouterLink} to={"account"}>
                         Account
                     </Button>
                 </Toolbar>

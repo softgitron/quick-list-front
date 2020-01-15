@@ -1,111 +1,213 @@
 import React, { Component } from "react";
+import { withStyles } from "@material-ui/styles";
 import NavBarController from "./NavBarController";
 import TaskPropertiesController from "./TaskPropertiesController";
-import PostItView from "./PostItView";
+import Drawer from "@material-ui/core/Drawer";
+import PostItController from "./PostItController";
 import Grid from "@material-ui/core/Grid";
 import ListView from "./ListView";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
+const drawerWidth = "25vw";
+
+const styles = theme => ({
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0
+    },
+    drawerPaper: {
+        width: drawerWidth,
+        background: "#666666",
+        color: "#FFFFFF"
+    }
+});
 
 class ViewContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             tabStatus: 0,
-            listid: "",
-            thelist: { objects: [] }
+            objects: [],
+            onlyProperties: false
+            //sortbydate: true
         };
+        this.renderOnlyProperties = this.renderOnlyProperties.bind(this);
     }
 
-    createDeadline = (listid, title, info, date, severity) => {
-        console.log("load");
+    createDeadline = (title, info, date, severity) => {
+        let thecookie;
+        if (document.cookie) {
+            thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        }
         fetch("api/deadline/create", {
             method: "POST",
             body: JSON.stringify({
-                listid: listid,
+                listid: thecookie,
                 title: title,
                 info: info,
                 date: date,
-                severity: severity
+                priority: severity
             }),
             headers: { "Content-Type": "application/json" }
         })
             .then(res => res.json())
             .then(data => {
                 if (data.success === false) {
-                    alert(data.message);
+                    console.log(data.message);
                 } else {
                     console.log(data.message);
+                    if (data.newId) {
+                        document.cookie = `quicklistid=${data.newId}`;
+                    }
                     this.loadList();
                 }
             });
     };
 
-    loadList = listid => {
+    changesort = alignment => {
+        console.log(alignment);
+        if (alignment === "left") {
+            //this.setState({ sortbydate: true });
+            this.loadList(true);
+        } else {
+            //this.setState({ sortbydate: false });
+            this.loadList(false);
+        }
+    };
+
+    loadList = sortbydate => {
+        let thecookie;
+        if (document.cookie) {
+            thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        }
+        console.log(thecookie);
         fetch("/api/deadline/load", {
             method: "POST",
             body: JSON.stringify({
-                listid: "454a15c5-7f2d-4469-8b8e-2f815ae8114b"
+                listid: thecookie,
+                sortbydate: sortbydate
             }),
             headers: { "Content-Type": "application/json" }
         })
             .then(res => res.json())
             .then(data => {
                 if (data.success === false) {
-                    alert(data.message);
+                    console.log(data.message);
                 } else {
-                    this.setState({ thelist: data.foundlist });
-                    console.log(data.foundlist);
+                    this.setState({ objects: data.objects });
+                    console.log(data.objects);
                 }
             });
     };
 
     componentDidMount() {
-        this.loadList();
+        this.changesort("left");
+        //this.loadList();
     }
+
+    renderOnlyProperties(value) {
+        this.setState({ onlyProperties: value });
+    }
+
     render() {
+        const { classes } = this.props;
         // Tab panel render
         let tabRender;
         const tabStatus = this.state.tabStatus;
         switch (tabStatus) {
             case 0: {
-                tabRender = <ListView loadedlist={this.state.thelist.objects} />;
+                tabRender = (
+                    <ListView
+                        loadedlist={this.state.objects}
+                        loadList={this.loadList}
+                        changesort={this.changesort}
+                        hideProperties={this.props.hideProperties}
+                        renderOnlyProperties={this.renderOnlyProperties}
+                    />
+                );
                 break;
             }
             case 1: {
-                tabRender = <PostItView></PostItView>;
+                tabRender = <PostItController loadedlist={this.state.objects}></PostItController>;
                 break;
             }
         }
-        return (
-            <>
-                <NavBarController />
-                <TaskPropertiesController createDeadline={this.createDeadline} />
-                <div style={{ height: "64px" }}></div>
-                <Grid container spacing={0}>
-                    <Grid item xs={3} />
-                    <Grid item xs={9}>
-                        <Grid container>
-                            <Tabs
-                                value={this.state.tabStatus}
-                                onChange={(_, value) => {
-                                    this.setState({ tabStatus: value });
-                                }}
-                                variant="fullWidth"
-                                indicatorColor="primary"
-                                style={{ width: "100%" }}
-                                TabIndicatorProps={{ style: { backgroundColor: "#009688" } }}
-                            >
-                                <Tab label="Tasks" />
-                                <Tab label="Post-it" />
-                            </Tabs>
-                            {tabRender}
+        // Mobile view logic
+        if (this.state.onlyProperties) {
+            return (
+                <TaskPropertiesController
+                    hideProperties={this.props.hideProperties}
+                    renderOnlyProperties={this.renderOnlyProperties}
+                    createDeadline={this.createDeadline}
+                />
+            );
+        } else if (this.props.hideProperties) {
+            return (
+                <>
+                    <NavBarController />
+                    <div style={{ height: "64px" }}></div>
+                    <Tabs
+                        value={this.state.tabStatus}
+                        onChange={(_, value) => {
+                            this.setState({ tabStatus: value });
+                        }}
+                        variant="fullWidth"
+                        indicatorColor="primary"
+                        style={{ width: "100%" }}
+                        TabIndicatorProps={{ style: { backgroundColor: "#009688" } }}
+                    >
+                        <Tab label="Tasks" />
+                        <Tab label="Post-it" />
+                    </Tabs>
+                    {tabRender}
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <NavBarController />
+                    <Drawer
+                        className={classes.drawer}
+                        variant="permanent"
+                        classes={{
+                            paper: classes.drawerPaper
+                        }}
+                    >
+                        {" "}
+                        <TaskPropertiesController
+                            hideProperties={this.props.hideProperties}
+                            renderOnlyProperties={this.renderOnlyProperties}
+                            createDeadline={this.createDeadline}
+                        />
+                    </Drawer>
+
+                    <div style={{ height: "64px" }}></div>
+                    <Grid container spacing={0}>
+                        <Grid item xs={3} />
+                        <Grid item xs={9}>
+                            <Grid container>
+                                <Tabs
+                                    value={this.state.tabStatus}
+                                    onChange={(_, value) => {
+                                        this.setState({ tabStatus: value });
+                                    }}
+                                    variant="fullWidth"
+                                    indicatorColor="primary"
+                                    style={{ width: "100%" }}
+                                    TabIndicatorProps={{ style: { backgroundColor: "#009688" } }}
+                                >
+                                    <Tab label="Tasks" />
+                                    <Tab label="Post-it" />
+                                </Tabs>
+                                {tabRender}
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </>
-        );
+                </>
+            );
+        }
     }
 }
 
-export default ViewContainer;
+export default withStyles(styles)(ViewContainer);
