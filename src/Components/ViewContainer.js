@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBarController from "./NavBarController";
 import TaskPropertiesController from "./TaskPropertiesController";
+import PostItView from "./PostItView";
 import Grid from "@material-ui/core/Grid";
 import ListView from "./ListView";
 import Tabs from "@material-ui/core/Tabs";
@@ -72,7 +73,7 @@ class ViewContainer extends Component {
                 break;
             }
             case 1: {
-                tabRender = <></>;
+                tabRender = <PostItView></PostItView>;
                 break;
             }
         }

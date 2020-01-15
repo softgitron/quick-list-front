@@ -93,7 +93,9 @@ export default function NavBarView() {
                             )
                         }}
                     />
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit" href="/account">
+                        Account
+                    </Button>
                 </Toolbar>
             </AppBar>
         </MuiThemeProvider>
