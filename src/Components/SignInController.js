@@ -29,7 +29,7 @@ class SignInController extends Component {
     };
 
     textChange = e => {
-        //this.setState({ givenid: e.target.value });
+        this.setState({ givenId: e.target.value });
     };
 
     render() {
