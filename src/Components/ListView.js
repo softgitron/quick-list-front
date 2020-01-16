@@ -53,11 +53,11 @@ export default function ListView(props) {
             color={circleColor[item.priority - 1]}
             completed={item.completed}
             toggleCompletion={toggleCompletion}
+            deleteDeadline={deleteDeadline}
         />
     ));
 
     function toggleCompletion(number, completed) {
-        console.log("PRESS THE BUTTON NOW");
         let thecookie;
         if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
         fetch("api/deadline/complete", {
@@ -72,10 +72,32 @@ export default function ListView(props) {
             .then(res => res.json())
             .then(data => {
                 if (data.success === false) {
-                    // alert(data.message);
+                    alert(data.message);
                 } else {
                     console.log(data.message);
-                    props.loadList();
+                    props.loadList(props.sortbydate);
+                }
+            });
+    }
+
+    function deleteDeadline(number) {
+        let thecookie;
+        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        fetch("api/deadline/delete", {
+            method: "POST",
+            body: JSON.stringify({
+                listid: thecookie,
+                number: number
+            }),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === false) {
+                    alert(data.message);
+                } else {
+                    console.log(data.message);
+                    props.loadList(props.sortbydate);
                 }
             });
     }
@@ -128,7 +150,7 @@ export default function ListView(props) {
             </ToggleButtonGroup>
             {button}
             {deadlines}
-            <ListObject
+            {/*<ListObject
                 title={"Tämä on testi"}
                 desc={"lorem ipsum diiba daaba"}
                 date={"13.1.2020"}
@@ -139,7 +161,7 @@ export default function ListView(props) {
                 desc={"Tämän piti olla jo tänään valmis!"}
                 date={"14.1.2020"}
                 color={"#FF512C"}
-            />
+            />*/}
         </List>
     );
 }

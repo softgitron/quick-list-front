@@ -69,7 +69,8 @@ const useStyles = makeStyles(theme => ({
     },
     priority: {
         colorPrimary: "white",
-        background: "linear-gradient(90deg, #666666 0%, #f56c62 30%, #72b074 70%, #666666 100%)"
+        background: "linear-gradient(90deg, #666666 0%, #f56c62 30%, #72b074 70%, #666666 100%)",
+        marginRight: "8px"
     },
     time: {
         padding: "8px",
@@ -126,7 +127,7 @@ export default function ClippedDrawer(props) {
                     <ListItem>
                         <Slider
                             id="priorityValue"
-                            onChange={props.onChange}
+                            onChange={props.handleSlider}
                             className={classes.priority}
                             defaultValue={3}
                             aria-labelledby="discrete-slider"

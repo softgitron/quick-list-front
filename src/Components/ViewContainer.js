@@ -29,8 +29,8 @@ class ViewContainer extends Component {
         this.state = {
             tabStatus: 0,
             objects: [],
-            onlyProperties: false
-            //sortbydate: true
+            onlyProperties: false,
+            sortbydate: true
         };
         this.renderOnlyProperties = this.renderOnlyProperties.bind(this);
     }
@@ -58,7 +58,11 @@ class ViewContainer extends Component {
                 } else {
                     console.log(data.message);
                     if (data.newId) {
-                        document.cookie = `quicklistid=${data.newId}`;
+                        let date = new Date();
+                        date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
+                        document.cookie = `quicklistid=${
+                            data.newId
+                        }; expires=${date.toGMTString()};`;
                     }
                     this.loadList();
                 }
@@ -68,10 +72,10 @@ class ViewContainer extends Component {
     changesort = alignment => {
         console.log(alignment);
         if (alignment === "left") {
-            //this.setState({ sortbydate: true });
+            this.setState({ sortbydate: true });
             this.loadList(true);
         } else {
-            //this.setState({ sortbydate: false });
+            this.setState({ sortbydate: false });
             this.loadList(false);
         }
     };
@@ -122,6 +126,7 @@ class ViewContainer extends Component {
                         loadedlist={this.state.objects}
                         loadList={this.loadList}
                         changesort={this.changesort}
+                        sortbydate={this.state.sortbydate}
                         hideProperties={this.props.hideProperties}
                         renderOnlyProperties={this.renderOnlyProperties}
                     />

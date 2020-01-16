@@ -8,6 +8,7 @@ class TaskPropertiesController extends Component {
         super(props);
         this.createDeadlineButton = this.createDeadlineButton.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSlider = this.handleSlider.bind(this);
         this.state = {
             titleField: "",
             detailsField: "",
@@ -37,6 +38,10 @@ class TaskPropertiesController extends Component {
         );
     }
 
+    handleSlider(_, val) {
+        this.setState({ priorityValue: val });
+    }
+
     handleChange(e, val) {
         //console.log(e);
         if (e.id) {
@@ -50,13 +55,13 @@ class TaskPropertiesController extends Component {
             this.setState({ [e.target.id]: e.target.checked });
         } else if (e.target.type === "text" || e.target.type === "textarea") {
             this.setState({ [e.target.id]: e.target.value });
-        } else {
+        } /* else {
             if (!e.target.parentElement) {
             } else if (!e.target.parentElement.id) {
             } else {
                 this.setState({ [e.target.parentElement.id]: val });
             }
-        }
+        }*/
     }
 
     render() {
@@ -83,6 +88,7 @@ class TaskPropertiesController extends Component {
                 <TaskPropertiesView
                     createButton={this.createDeadlineButton}
                     onChange={this.handleChange}
+                    handleSlider={this.handleSlider}
                 />
             </div>
         );

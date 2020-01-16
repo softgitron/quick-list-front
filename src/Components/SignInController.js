@@ -11,7 +11,9 @@ class SignInController extends Component {
 
     loadCookie = () => {
         console.log("loadcookie");
-        document.cookie = `quicklistid=${this.state.givenid}`;
+        let date = new Date();
+        date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
+        document.cookie = `quicklistid=${this.state.givenid}; expires=${date.toGMTString()};`;
     };
 
     textChange = e => {

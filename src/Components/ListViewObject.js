@@ -140,6 +140,10 @@ export default function ListObject(props) {
                                     aria-label="delete"
                                     className={classes.margin}
                                     classes={{ label: classes.buttons }}
+                                    onClick={() => {
+                                        console.log("delete");
+                                        props.deleteDeadline(props.number);
+                                    }}
                                 >
                                     <DeleteIcon fontSize="large" />
                                 </IconButton>
