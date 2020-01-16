@@ -81,15 +81,27 @@ class ViewContainer extends Component {
     };
 
     loadList = sortbydate => {
-        let thecookie;
-        if (document.cookie) {
-            thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        let sentid;
+        const url = this.props.history.location.pathname;
+        console.log(document.cookie);
+        if (!url.includes("account") && !url.includes("newAccount") && !url.includes("signIn")) {
+            //console.log(this.props.history.location.pathname);
+            if (url.split("/")[1]) {
+                //console.log("split");
+                sentid = url.split("/")[1];
+            } else {
+                //console.log("from cookie");
+                sentid = document.cookie.split("quicklistid=")[1];
+            }
+        } else if (document.cookie) {
+            //console.log("from cookie");
+            sentid = document.cookie.split("quicklistid=")[1];
         }
-        console.log(thecookie);
+        //console.log(sentid);
         fetch("/api/deadline/load", {
             method: "POST",
             body: JSON.stringify({
-                listid: thecookie,
+                listid: sentid,
                 sortbydate: sortbydate
             }),
             headers: { "Content-Type": "application/json" }

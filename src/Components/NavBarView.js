@@ -96,7 +96,7 @@ export default function NavBarView() {
                         }}
                     />
                     <Button color="inherit" component={RouterLink} to={"account"}>
-                        Account
+                        Share
                     </Button>
                 </Toolbar>
             </AppBar>

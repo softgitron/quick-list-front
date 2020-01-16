@@ -100,7 +100,7 @@ export default function Account() {
                             <LockOutlinedIcon color={"secondary"} />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Share
                         </Typography>
                         <div className={classes.form}>
                             <Button
@@ -111,7 +111,7 @@ export default function Account() {
                                 component={RouterLink}
                                 to={"/signIn"}
                             >
-                                Sign In
+                                Load tasks with a code
                             </Button>
                             <Button
                                 fullWidth
@@ -121,7 +121,7 @@ export default function Account() {
                                 component={RouterLink}
                                 to={"/newAccount"}
                             >
-                                Create a new user
+                                Share link to task list
                             </Button>
                             <Button
                                 fullWidth

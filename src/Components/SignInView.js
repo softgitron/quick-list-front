@@ -102,14 +102,14 @@ export default function SignIn(props) {
                             <LockOutlinedIcon color={"secondary"} />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Create account
+                            Use token
                         </Typography>
                         <div className={classes.form}>
                             <QrReader
                                 delay={300}
                                 showViewFinder={true}
                                 onError={value => {}}
-                                onScan={value => {}}
+                                onScan={props.updateQr}
                                 style={{ width: "100%" }}
                             />
                             <TextField
@@ -117,8 +117,8 @@ export default function SignIn(props) {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
                                 onChange={props.idChange}
+                                value={props.givenId}
                                 label="Authentication code"
                                 name="email"
                                 autoComplete="email"

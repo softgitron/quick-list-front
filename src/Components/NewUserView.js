@@ -1,9 +1,7 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -11,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TextField from "@material-ui/core/TextField";
 import { Link as RouterLink } from "react-router-dom";
+import QRCode from "qrcode.react";
 
 function Copyright() {
     return (
@@ -76,6 +75,9 @@ const useStyles = makeStyles(theme => ({
     },
     cancel: {
         textAlign: "right"
+    },
+    field: {
+        marginTop: "0px"
     }
 }));
 
@@ -97,14 +99,21 @@ export default function NewUser(props) {
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon color={"secondary"} />
-                        </Avatar>
+                        <QRCode includeMargin={true} size={200} value={props.qr} />
                         <Typography component="h1" variant="h5">
-                            Create account
+                            Authentication code
                         </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            name="email"
+                            value={props.code}
+                            autoComplete="email"
+                        />
                         <div className={classes.form}>
                             <TextField
+                                className={classes.field}
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -125,7 +134,7 @@ export default function NewUser(props) {
                                     props.sendEmail();
                                 }}
                             >
-                                Create user
+                                Send code to email
                             </Button>
                             <Button
                                 fullWidth

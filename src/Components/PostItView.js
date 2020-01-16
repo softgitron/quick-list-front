@@ -8,66 +8,7 @@ import Draggable from "react-draggable";
 
 // background: props.color
 
-// SOURCE!!!!! https://stackoverflow.com/questions/56013531/reactjs-hooks-drag-and-drop-with-multiple-usestate-hooks-and-styled-components
 export default function PostItView(props) {
-    const [state, setState] = useState({
-        isDragging: false,
-        translateX: 0,
-        translateY: 0
-    });
-    // mouse move
-    const handleMouseMove = useCallback(
-        ({ clientX, clientY }) => {
-            if (state.isDragging) {
-                setState(prevState => ({
-                    ...prevState,
-                    translateX: clientX,
-                    translateY: clientY
-                }));
-            }
-        },
-        [state.isDragging]
-    );
-
-    // mouse left click release
-    const handleMouseUp = useCallback(() => {
-        if (state.isDragging) {
-            setState(prevState => ({
-                ...prevState,
-                isDragging: false
-            }));
-        }
-    }, [state.isDragging]);
-
-    useEffect(() => {
-        console.log(
-            "Lappu numero: ",
-            props.number,
-            " liikkui (x, y)",
-            state.translateX,
-            state.translateY
-        );
-    }, [state.isDragging]);
-
-    // mouse left click hold
-    const handleMouseDown = useCallback(() => {
-        setState(prevState => ({
-            ...prevState,
-            isDragging: true
-        }));
-    }, []);
-
-    // adding/cleaning up mouse event listeners
-    useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("mouseup", handleMouseUp);
-
-        return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-            window.removeEventListener("mouseup", handleMouseUp);
-        };
-    }, [handleMouseMove, handleMouseUp]);
-
     const postItStyle = {
         //marginTop: "20%",
         //marginBottom: "auto",
@@ -88,12 +29,13 @@ export default function PostItView(props) {
         alignItems: "flex-end"
     };
 
+    const handleStop = (ev, val) => {
+        console.log(Math.abs(val.lastX / props.sizex));
+        console.log(Math.abs(val.lastY / props.sizey));
+    };
+
     return (
-        <Draggable
-            bounds="parent"
-            onMouseDown={handleMouseDown}
-            defaultPosition={{ x: props.x, y: props.y }}
-        >
+        <Draggable bounds="parent" onStop={handleStop} defaultPosition={{ x: props.x, y: props.y }}>
             <div className="box" style={postItStyle}>
                 <Typography variant="h6">{props.title}</Typography>
                 <Typography variant="subtitle1">{props.desc}</Typography>

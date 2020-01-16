@@ -5,7 +5,9 @@ class NewUserController extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ""
+            email: "",
+            qr: "",
+            cookie: ""
         };
     }
 
@@ -35,10 +37,20 @@ class NewUserController extends Component {
         this.setState({ email: e.target.value });
     };
 
+    componentDidMount() {
+        const cookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        this.setState({ qr: "https://" + window.location.hostname + "/" + cookie, code: cookie });
+    }
+
     render() {
         return (
             <>
-                <NewUserView sendEmail={this.sendEmail} emailChange={this.textChange} />
+                <NewUserView
+                    sendEmail={this.sendEmail}
+                    emailChange={this.textChange}
+                    qr={this.state.qr}
+                    code={this.state.code}
+                />
             </>
         );
     }

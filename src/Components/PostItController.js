@@ -13,11 +13,20 @@ class PostItController extends Component {
             overflow: "auto",
             padding: "0"
         };
+        this.state = { sizex: 0, sizey: 0 };
+        this.updateSize = this.updateSize.bind(this);
+    }
+
+    updateSize(val) {
+        if (val) {
+            this.setState({ sizex: val.clientWidth, sizey: val.clientHeight });
+        }
     }
 
     render() {
+        console.log(this.size);
         return (
-            <div className="box" style={this.boxStyle}>
+            <div ref={this.updateSize} className="box" style={this.boxStyle}>
                 <div style={{ height: "100%", width: "100%" }}>
                     {this.props.loadedlist.map(item => (
                         <PostItView
@@ -28,8 +37,10 @@ class PostItController extends Component {
                             date={item.date ? item.date.slice(0, 16).replace("T", " ") : ""}
                             completed={item.completed}
                             color={circleColor[item.priority - 1]}
-                            x={100}
-                            y={100}
+                            x={item.x}
+                            y={item.y}
+                            sizex={this.state.sizex}
+                            sizey={this.state.sizey}
                         />
                     ))}
                 </div>
