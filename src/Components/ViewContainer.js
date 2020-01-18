@@ -62,12 +62,86 @@ class ViewContainer extends Component {
                         date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
                         document.cookie = `quicklistid=${
                             data.newId
-                        }; expires=${date.toGMTString()};`;
+                            }; expires=${date.toGMTString()};`;
                     }
                     this.loadList();
                 }
             });
     };
+
+    toggleCompletion = (number, completed) => {
+        let thecookie;
+        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        fetch("api/deadline/complete", {
+            method: "POST",
+            body: JSON.stringify({
+                listid: thecookie,
+                number: number,
+                completed: completed
+            }),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === false) {
+                    alert(data.message);
+                } else {
+                    console.log(data.message);
+                    this.loadList(this.state.sortbydate);
+                }
+            });
+    }
+
+    updatePost = (number, title, info, priority, date, x, y) => {
+        let thecookie;
+        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        console.log(title, info, priority, date, x, y);
+        fetch("api/deadline/complete", {
+            method: "POST",
+            body: JSON.stringify({
+                listid: thecookie,
+                number: number,
+                title: title,
+                info: info,
+                priority: priority,
+                date: date,
+                x: x,
+                y: y
+            }),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === false) {
+                    alert(data.message);
+                } else {
+                    console.log(data.message);
+                    this.loadList(this.state.sortbydate);
+                }
+            });
+    }
+
+    deleteDeadline = (number) => {
+        let thecookie;
+        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        fetch("api/deadline/delete", {
+            method: "POST",
+            body: JSON.stringify({
+                listid: thecookie,
+                number: number
+            }),
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === false) {
+                    alert(data.message);
+                } else {
+                    console.log(data.message);
+                    this.loadList(this.state.sortbydate);
+                }
+            });
+    }
 
     changesort = alignment => {
         console.log(alignment);
@@ -125,7 +199,7 @@ class ViewContainer extends Component {
     renderOnlyProperties(value) {
         this.setState({ onlyProperties: value });
     }
-
+    // "Miten toteuttaa siististi sivupalkin katoaminen näyyön koon perusteella"
     render() {
         const { classes } = this.props;
         // Tab panel render
@@ -133,24 +207,33 @@ class ViewContainer extends Component {
         const tabStatus = this.state.tabStatus;
         switch (tabStatus) {
             case 0: {
-                tabRender = (
+                tabRender =
                     <ListView
                         loadedlist={this.state.objects}
-                        loadList={this.loadList}
+                        //loadList={this.loadList}
                         changesort={this.changesort}
-                        sortbydate={this.state.sortbydate}
+                        //sortbydate={this.state.sortbydate}
                         hideProperties={this.props.hideProperties}
                         renderOnlyProperties={this.renderOnlyProperties}
+                        toggleCompletion={this.toggleCompletion}
+                        deleteDeadline={this.deleteDeadline}
                     />
-                );
+                    ;
                 break;
             }
             case 1: {
-                tabRender = <PostItController loadedlist={this.state.objects}></PostItController>;
+                tabRender =
+                    <PostItController
+                        loadedlist={this.state.objects}
+                        toggleCompletion={this.toggleCompletion}
+                        deleteDeadline={this.deleteDeadline}
+                        updatePost={this.updatePost}>
+                    </PostItController>;
                 break;
             }
         }
         // Mobile view logic
+        // CSS meadiaquery (kts miten toimii material-ui kanssa), brake points
         if (this.state.onlyProperties) {
             return (
                 <TaskPropertiesController

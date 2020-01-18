@@ -13,7 +13,7 @@ class PostItController extends Component {
             overflow: "auto",
             padding: "0"
         };
-        this.state = { sizex: 0, sizey: 0 };
+        this.state = { sizex: props.width, sizey: props.height };
         this.updateSize = this.updateSize.bind(this);
     }
 
@@ -24,10 +24,10 @@ class PostItController extends Component {
     }
 
     render() {
-        console.log(this.size);
+        console.log(this.state.sizex, this.state.sizey);
         return (
             <div ref={this.updateSize} className="box" style={this.boxStyle}>
-                <div style={{ height: "100%", width: "100%" }}>
+                {this.state.sizex ? <div style={{ height: "100%", width: "100%" }}>
                     {this.props.loadedlist.map(item => (
                         <PostItView
                             key={"Tasks" + item.number}
@@ -37,13 +37,18 @@ class PostItController extends Component {
                             date={item.date ? item.date.slice(0, 16).replace("T", " ") : ""}
                             completed={item.completed}
                             color={circleColor[item.priority - 1]}
-                            x={item.x}
-                            y={item.y}
+                            x={item.x * this.state.sizex}
+                            y={item.y * this.state.sizey}
                             sizex={this.state.sizex}
                             sizey={this.state.sizey}
+                            toggleCompletion={this.props.toggleCompletion}
+                            deleteDeadline={this.props.deleteDeadline}
+                            updatePost={this.props.updatePost}
+
                         />
                     ))}
-                </div>
+                </div> : null}
+
             </div>
         );
     }

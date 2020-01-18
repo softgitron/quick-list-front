@@ -32,6 +32,7 @@ export default function PostItView(props) {
     const handleStop = (ev, val) => {
         console.log(Math.abs(val.lastX / props.sizex));
         console.log(Math.abs(val.lastY / props.sizey));
+        props.updatePost(props.number, props.title, props.desc, props.priorityRaw, props.dateRaw, (Math.abs(val.lastX / props.sizex)), (Math.abs(val.lastY / props.sizey)));
     };
 
     return (
@@ -45,9 +46,10 @@ export default function PostItView(props) {
                     <Checkbox
                         //className={classes.checkBox}
                         color={"primary"}
-                        checked={props.checked}
+                        checked={props.completed}
                         onChange={() => {
                             console.log("Mitä mun pitäis tehdä? T: checkbox");
+                            props.toggleCompletion(props.number, !props.completed);
                         }}
                         value="primary"
                     />
@@ -55,7 +57,12 @@ export default function PostItView(props) {
                         aria-label="delete"
                         //className={classes.margin}
                         //classes={{ label: classes.buttons }}
+                        onClick={() => {
+                            console.log("delete");
+                            props.deleteDeadline(props.number);
+                        }}
                     >
+
                         <DeleteIcon fontSize="large" />
                     </IconButton>
                 </div>

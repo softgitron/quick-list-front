@@ -52,55 +52,55 @@ export default function ListView(props) {
             date={item.date ? item.date.slice(0, 16).replace("T", " ") : ""}
             color={circleColor[item.priority - 1]}
             completed={item.completed}
-            toggleCompletion={toggleCompletion}
-            deleteDeadline={deleteDeadline}
+            toggleCompletion={props.toggleCompletion}
+            deleteDeadline={props.deleteDeadline}
         />
     ));
 
-    function toggleCompletion(number, completed) {
-        let thecookie;
-        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
-        fetch("api/deadline/complete", {
-            method: "POST",
-            body: JSON.stringify({
-                listid: thecookie,
-                number: number,
-                completed: completed
-            }),
-            headers: { "Content-Type": "application/json" }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success === false) {
-                    alert(data.message);
-                } else {
-                    console.log(data.message);
-                    props.loadList(props.sortbydate);
-                }
-            });
-    }
-
-    function deleteDeadline(number) {
-        let thecookie;
-        if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
-        fetch("api/deadline/delete", {
-            method: "POST",
-            body: JSON.stringify({
-                listid: thecookie,
-                number: number
-            }),
-            headers: { "Content-Type": "application/json" }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success === false) {
-                    alert(data.message);
-                } else {
-                    console.log(data.message);
-                    props.loadList(props.sortbydate);
-                }
-            });
-    }
+    /*     function toggleCompletion(number, completed) {
+            let thecookie;
+            if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+            fetch("api/deadline/complete", {
+                method: "POST",
+                body: JSON.stringify({
+                    listid: thecookie,
+                    number: number,
+                    completed: completed
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === false) {
+                        alert(data.message);
+                    } else {
+                        console.log(data.message);
+                        props.loadList(props.sortbydate);
+                    }
+                });
+        }
+    
+        function deleteDeadline(number) {
+            let thecookie;
+            if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+            fetch("api/deadline/delete", {
+                method: "POST",
+                body: JSON.stringify({
+                    listid: thecookie,
+                    number: number
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === false) {
+                        alert(data.message);
+                    } else {
+                        console.log(data.message);
+                        props.loadList(props.sortbydate);
+                    }
+                });
+        } */
 
     let button;
     if (props.hideProperties) {
