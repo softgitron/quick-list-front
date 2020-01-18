@@ -92,21 +92,21 @@ class ViewContainer extends Component {
             });
     }
 
-    updatePost = (number, title, info, priority, date, x, y) => {
+    updatePost = (dataObject) => {
         let thecookie;
         if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
-        console.log(title, info, priority, date, x, y);
-        fetch("api/deadline/complete", {
+        console.log(dataObject.title, dataObject.info, dataObject.priority, dataObject.date, dataObject.x, dataObject.y);
+        fetch("api/deadline/update", {
             method: "POST",
             body: JSON.stringify({
                 listid: thecookie,
-                number: number,
-                title: title,
-                info: info,
-                priority: priority,
-                date: date,
-                x: x,
-                y: y
+                number: dataObject.number,
+                title: dataObject.title,
+                info: dataObject.info,
+                priority: dataObject.priority,
+                date: dataObject.date,
+                x: dataObject.x,
+                y: dataObject.y
             }),
             headers: { "Content-Type": "application/json" }
         })

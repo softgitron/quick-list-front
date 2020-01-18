@@ -30,9 +30,17 @@ export default function PostItView(props) {
     };
 
     const handleStop = (ev, val) => {
-        console.log(Math.abs(val.lastX / props.sizex));
-        console.log(Math.abs(val.lastY / props.sizey));
-        props.updatePost(props.number, props.title, props.desc, props.priorityRaw, props.dateRaw, (Math.abs(val.lastX / props.sizex)), (Math.abs(val.lastY / props.sizey)));
+        let dataObject = {
+            number: props.number,
+            title: props.title,
+            info: props.desc,
+            priority: props.priorityRaw,
+            date: props.dateRaw,
+            x: (Math.abs(val.lastX / props.sizex)),
+            y: (Math.abs(val.lastY / props.sizey))
+        };
+        console.log("x & y: ", dataObject.x, dataObject.y);
+        props.updatePost(dataObject);
     };
 
     return (

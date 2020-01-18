@@ -35,8 +35,10 @@ class PostItController extends Component {
                             title={item.title}
                             desc={item.info}
                             date={item.date ? item.date.slice(0, 16).replace("T", " ") : ""}
+                            dateRaw={item.date}
                             completed={item.completed}
                             color={circleColor[item.priority - 1]}
+                            priorityRaw={item.priority}
                             x={item.x * this.state.sizex}
                             y={item.y * this.state.sizey}
                             sizex={this.state.sizex}
