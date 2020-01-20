@@ -12,25 +12,30 @@ class NewUserController extends Component {
     }
 
     sendEmail = () => {
-        console.log("Mitä mun pitäis tehdä? T: Sign in with QR-code");
-        let thecookie;
-        if (document.cookie) {
-            thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+        if (this.state.email === "") {
+            alert("Insert an address");
+        } else {
+            console.log("Mitä mun pitäis tehdä? T: Sign in with QR-code");
+            let thecookie;
+            if (document.cookie) {
+                thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
+            }
+            fetch("api/deadline/sendemail", {
+                method: "POST",
+                body: JSON.stringify({
+                    listid: thecookie,
+                    email: this.state.email,
+                    url: "nettisivu/"
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.message);
+                    alert("We have sent you and email");
+                });
         }
-        fetch("api/deadline/sendemail", {
-            method: "POST",
-            body: JSON.stringify({
-                listid: thecookie,
-                email: this.state.email,
-                url: "nettisivu/"
-            }),
-            headers: { "Content-Type": "application/json" }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.message);
-                alert("We have sent you and email");
-            });
+
     };
 
     textChange = e => {

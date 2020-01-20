@@ -12,9 +12,15 @@ class SignInController extends Component {
 
     loadCookie = () => {
         console.log("loadcookie");
-        let date = new Date();
-        date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
-        document.cookie = `quicklistid=${this.state.givenId}; expires=${date.toGMTString()};`;
+        if (this.state.givenId !== "") {
+            let date = new Date();
+            date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
+            document.cookie = `quicklistid=${this.state.givenId}; expires=${date.toGMTString()};`;
+            alert("Id was loaded to a cookie!");
+        } else {
+            alert("Insert a valid id");
+        }
+
     };
 
     updateQr = val => {
