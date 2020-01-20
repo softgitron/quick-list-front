@@ -62,14 +62,14 @@ export default function NavBarView() {
         <MuiThemeProvider theme={theme}>
             <AppBar className={styles.appBar} position="fixed">
                 <Toolbar color="inherit">
-                    <IconButton
+                    {/*                     <IconButton
                         edge="start"
                         className={styles.menuButton}
                         color="inherit"
                         aria-label="menu"
                     >
                         <MenuIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <Typography variant="h6" className={styles.title}>
                         QList
                     </Typography>

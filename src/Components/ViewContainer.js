@@ -4,21 +4,20 @@ import NavBarController from "./NavBarController";
 import TaskPropertiesController from "./TaskPropertiesController";
 import Drawer from "@material-ui/core/Drawer";
 import PostItController from "./PostItController";
-import Grid from "@material-ui/core/Grid";
 import ListView from "./ListView";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-const drawerWidth = "25vw";
+const drawerWidthDefault = "24em";
 
 const styles = theme => ({
     drawer: {
-        width: drawerWidth,
+        width: drawerWidthDefault,
         flexShrink: 0
     },
     drawerPaper: {
-        width: drawerWidth,
-        background: "#666666",
+        width: drawerWidthDefault,
+        background: "#6e6e6e",
         color: "#FFFFFF"
     }
 });
@@ -62,7 +61,7 @@ class ViewContainer extends Component {
                         date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
                         document.cookie = `quicklistid=${
                             data.newId
-                            }; expires=${date.toGMTString()};`;
+                        }; expires=${date.toGMTString()};`;
                     }
                     this.loadList();
                 }
@@ -90,12 +89,19 @@ class ViewContainer extends Component {
                     this.loadList(this.state.sortbydate);
                 }
             });
-    }
+    };
 
-    updatePost = (dataObject) => {
+    updatePost = dataObject => {
         let thecookie;
         if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
-        console.log(dataObject.title, dataObject.info, dataObject.priority, dataObject.date, dataObject.x, dataObject.y);
+        console.log(
+            dataObject.title,
+            dataObject.info,
+            dataObject.priority,
+            dataObject.date,
+            dataObject.x,
+            dataObject.y
+        );
         fetch("api/deadline/update", {
             method: "POST",
             body: JSON.stringify({
@@ -119,9 +125,9 @@ class ViewContainer extends Component {
                     this.loadList(this.state.sortbydate);
                 }
             });
-    }
+    };
 
-    deleteDeadline = (number) => {
+    deleteDeadline = number => {
         let thecookie;
         if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
         fetch("api/deadline/delete", {
@@ -141,7 +147,7 @@ class ViewContainer extends Component {
                     this.loadList(this.state.sortbydate);
                 }
             });
-    }
+    };
 
     changesort = alignment => {
         console.log(alignment);
@@ -207,7 +213,7 @@ class ViewContainer extends Component {
         const tabStatus = this.state.tabStatus;
         switch (tabStatus) {
             case 0: {
-                tabRender =
+                tabRender = (
                     <ListView
                         loadedlist={this.state.objects}
                         //loadList={this.loadList}
@@ -218,17 +224,18 @@ class ViewContainer extends Component {
                         toggleCompletion={this.toggleCompletion}
                         deleteDeadline={this.deleteDeadline}
                     />
-                    ;
+                );
                 break;
             }
             case 1: {
-                tabRender =
+                tabRender = (
                     <PostItController
                         loadedlist={this.state.objects}
                         toggleCompletion={this.toggleCompletion}
                         deleteDeadline={this.deleteDeadline}
-                        updatePost={this.updatePost}>
-                    </PostItController>;
+                        updatePost={this.updatePost}
+                    ></PostItController>
+                );
                 break;
             }
         }
@@ -283,27 +290,22 @@ class ViewContainer extends Component {
                     </Drawer>
 
                     <div style={{ height: "64px" }}></div>
-                    <Grid container spacing={0}>
-                        <Grid item xs={3} />
-                        <Grid item xs={9}>
-                            <Grid container>
-                                <Tabs
-                                    value={this.state.tabStatus}
-                                    onChange={(_, value) => {
-                                        this.setState({ tabStatus: value });
-                                    }}
-                                    variant="fullWidth"
-                                    indicatorColor="primary"
-                                    style={{ width: "100%" }}
-                                    TabIndicatorProps={{ style: { backgroundColor: "#009688" } }}
-                                >
-                                    <Tab label="Tasks" />
-                                    <Tab label="Post-it" />
-                                </Tabs>
-                                {tabRender}
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <div style={{ marginLeft: drawerWidthDefault }}>
+                        <Tabs
+                            value={this.state.tabStatus}
+                            onChange={(_, value) => {
+                                this.setState({ tabStatus: value });
+                            }}
+                            variant="fullWidth"
+                            indicatorColor="primary"
+                            style={{ width: "100%" }}
+                            TabIndicatorProps={{ style: { backgroundColor: "#009688" } }}
+                        >
+                            <Tab label="Tasks" />
+                            <Tab label="Post-it" />
+                        </Tabs>
+                        {tabRender}
+                    </div>
                 </>
             );
         }

@@ -121,7 +121,7 @@ export default function ListObject(props) {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid className={classes.date} item lg={2} md={2} xs={2}>
+                        <Grid className={classes.date.toLocaleString()} item lg={2} md={2} xs={2}>
                             <Grid
                                 container
                                 alignContent="flex-end"

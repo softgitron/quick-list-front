@@ -3,20 +3,26 @@ import TaskPropertiesView from "./TaskPropertiesView";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
+const defaults = {
+    titleField: "",
+    detailsField: "",
+    dateField: new Date(Date.now()),
+    timeField: new Date(Date.now()),
+    finalDateField: null,
+    priorityValue: 3,
+    resetKey: 0,
+    hideProperties: false
+};
+
 class TaskPropertiesController extends Component {
     constructor(props) {
         super(props);
         this.createDeadlineButton = this.createDeadlineButton.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSlider = this.handleSlider.bind(this);
-        this.state = {
-            titleField: "",
-            detailsField: "",
-            dateField: new Date(Date.now()),
-            timeField: new Date(Date.now()),
-            finalDateField: null,
-            priorityValue: 3
-        };
+        this.handleRadio = this.handleRadio.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+        this.state = defaults;
+        this.state.hideProperties = props.hideProperties;
     }
 
     createDeadlineButton() {
@@ -24,7 +30,7 @@ class TaskPropertiesController extends Component {
             this.state.dateField.getFullYear(),
             this.state.dateField.getMonth(),
             this.state.dateField.getDate(),
-            this.state.timeField.getHours(),
+            this.state.timeField.getHours() - this.state.timeField.getTimezoneOffset() / 60,
             this.state.timeField.getMinutes(),
             this.state.timeField.getSeconds()
         );
@@ -38,7 +44,7 @@ class TaskPropertiesController extends Component {
         );
     }
 
-    handleSlider(_, val) {
+    handleRadio(val) {
         this.setState({ priorityValue: val });
     }
 
@@ -64,9 +70,17 @@ class TaskPropertiesController extends Component {
         }*/
     }
 
+    handleReset() {
+        const resetKey = this.state.resetKey + 1;
+        const hideProperties = this.state.hideProperties;
+        this.setState(defaults);
+        this.setState({ resetKey: resetKey });
+        this.setState({ hideProperties: hideProperties });
+    }
+
     render() {
         let top;
-        if (this.props.hideProperties) {
+        if (this.state.hideProperties) {
             top = (
                 <IconButton
                     variant="contained"
@@ -83,12 +97,14 @@ class TaskPropertiesController extends Component {
             top = <div style={{ height: "64px" }} />;
         }
         return (
-            <div style={{ backgroundColor: "#666666", color: "white" }}>
+            <div style={{ backgroundColor: "#6e6e6e", color: "white" }}>
                 {top}
                 <TaskPropertiesView
+                    key={this.state.resetKey}
                     createButton={this.createDeadlineButton}
+                    resetButton={this.handleReset}
                     onChange={this.handleChange}
-                    handleSlider={this.handleSlider}
+                    handleRadio={this.handleRadio}
                 />
             </div>
         );
