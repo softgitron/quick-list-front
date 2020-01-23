@@ -9,9 +9,15 @@ class NavBarController extends Component {
             title: ""
         };
     }
-    handleButtonPress() {}
+
+    loadListHandler = (e) => {
+        this.props.loadList(this.props.sortbydate, e.target.value);
+
+    }
+
+    handleButtonPress() { }
     render() {
-        return <NavBarView />;
+        return <NavBarView loadListHandler={this.loadListHandler} />;
     }
 }
 

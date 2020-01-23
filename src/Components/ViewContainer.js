@@ -160,7 +160,7 @@ class ViewContainer extends Component {
         }
     };
 
-    loadList = sortbydate => {
+    loadList = (sortbydate, searchString) => {
         let sentid;
         const url = this.props.history.location.pathname;
         console.log(document.cookie);
@@ -190,10 +190,16 @@ class ViewContainer extends Component {
             .then(data => {
                 if (data.success === false) {
                     console.log(data.message);
-                } else {
-
+                } else if (searchString === undefined) {
+                    console.log(searchString === undefined);
                     this.setState({ objects: data.objects });
                     console.log(data.objects);
+                } else {
+                    const newOrder = data.objects.filter(
+                        post =>
+                            post.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
+                    );
+                    this.setState({ objects: newOrder });
                 }
             });
     };
@@ -239,6 +245,10 @@ class ViewContainer extends Component {
                 );
                 break;
             }
+            default: {
+                tabRender = (null);
+                break;
+            }
         }
         // Mobile view logic
         // CSS meadiaquery (kts miten toimii material-ui kanssa), brake points
@@ -253,7 +263,7 @@ class ViewContainer extends Component {
         } else if (this.props.hideProperties) {
             return (
                 <>
-                    <NavBarController />
+                    <NavBarController loadList={this.loadList} sortbydate={this.state.sortbydate} />
                     <div style={{ height: "64px" }}></div>
                     <Tabs
                         value={this.state.tabStatus}
