@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 //REEEE
-export default function NavBarView() {
+export default function NavBarView(props) {
     const styles = useStyles();
 
     return (
@@ -80,7 +80,8 @@ export default function NavBarView() {
                         variant="filled"
                         font-color="inherit"
                         className={styles.textField}
-                        /* onChange={this.handleChange} */
+                        onChange={props.loadListHandler}
+                        //onChange={function () { console.log("HOI HOI") }}
                         FormHelperTextProps={{ className: styles.search }}
                         InputLabelProps={{
                             className: styles.search,
