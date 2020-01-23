@@ -61,9 +61,9 @@ class ViewContainer extends Component {
                         date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
                         document.cookie = `quicklistid=${
                             data.newId
-                        }; expires=${date.toGMTString()};`;
+                            }; expires=${date.toGMTString()};`;
                     }
-                    this.loadList();
+                    this.loadList(this.state.sortbydate);
                 }
             });
     };
@@ -191,6 +191,7 @@ class ViewContainer extends Component {
                 if (data.success === false) {
                     console.log(data.message);
                 } else {
+
                     this.setState({ objects: data.objects });
                     console.log(data.objects);
                 }
