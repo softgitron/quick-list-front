@@ -7,10 +7,17 @@ import PostItController from "./PostItController";
 import ListView from "./ListView";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 
 const drawerWidthDefault = "24em";
 
 const styles = theme => ({
+    undo: {
+        color: "#009688"
+    },
     drawer: {
         width: drawerWidthDefault,
         flexShrink: 0
@@ -29,9 +36,14 @@ class ViewContainer extends Component {
             tabStatus: 0,
             objects: [],
             onlyProperties: false,
-            sortbydate: true
+            sortbydate: true,
+            snackBar: { open: false, message: "The item was deleted" },
+            lastDeleted: ""
         };
         this.renderOnlyProperties = this.renderOnlyProperties.bind(this);
+        this.openSnackBar = this.openSnackBar.bind(this);
+        this.closeSnackBar = this.closeSnackBar.bind(this);
+        this.undo = this.undo.bind(this);
     }
 
     createDeadline = (title, info, date, severity) => {
@@ -61,7 +73,7 @@ class ViewContainer extends Component {
                         date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
                         document.cookie = `quicklistid=${
                             data.newId
-                            }; expires=${date.toGMTString()};`;
+                        }; expires=${date.toGMTString()};`;
                     }
                     this.loadList(this.state.sortbydate);
                 }
@@ -128,6 +140,9 @@ class ViewContainer extends Component {
     };
 
     deleteDeadline = number => {
+        const deadline = this.state.objects.find(object => object.number === number);
+        this.setState({ lastDeleted: deadline });
+        this.openSnackBar(`Task "${deadline.title}" was deleted.`);
         let thecookie;
         if (document.cookie) thecookie = document.cookie.split("quicklistid=")[1].split(";")[0];
         fetch("api/deadline/delete", {
@@ -196,8 +211,7 @@ class ViewContainer extends Component {
                     console.log(data.objects);
                 } else {
                     const newOrder = data.objects.filter(
-                        post =>
-                            post.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
+                        post => post.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
                     );
                     this.setState({ objects: newOrder });
                 }
@@ -212,6 +226,25 @@ class ViewContainer extends Component {
     renderOnlyProperties(value) {
         this.setState({ onlyProperties: value });
     }
+
+    openSnackBar(message) {
+        this.setState({ snackBar: { open: true, message: message } });
+    }
+
+    closeSnackBar() {
+        this.setState({ snackBar: { open: false, message: "" } });
+    }
+
+    undo() {
+        this.createDeadline(
+            this.state.lastDeleted.title,
+            this.state.lastDeleted.info,
+            this.state.lastDeleted.date,
+            this.state.lastDeleted.priority
+        );
+        this.closeSnackBar();
+    }
+
     // "Miten toteuttaa siististi sivupalkin katoaminen näyyön koon perusteella"
     render() {
         const { classes } = this.props;
@@ -246,14 +279,15 @@ class ViewContainer extends Component {
                 break;
             }
             default: {
-                tabRender = (null);
+                tabRender = null;
                 break;
             }
         }
         // Mobile view logic
         // CSS meadiaquery (kts miten toimii material-ui kanssa), brake points
+        let render;
         if (this.state.onlyProperties) {
-            return (
+            render = (
                 <CreateTaskController
                     hideProperties={this.props.hideProperties}
                     renderOnlyProperties={this.renderOnlyProperties}
@@ -261,7 +295,7 @@ class ViewContainer extends Component {
                 />
             );
         } else if (this.props.hideProperties) {
-            return (
+            render = (
                 <>
                     <NavBarController loadList={this.loadList} sortbydate={this.state.sortbydate} />
                     <div style={{ height: "64px" }}></div>
@@ -282,7 +316,7 @@ class ViewContainer extends Component {
                 </>
             );
         } else {
-            return (
+            render = (
                 <>
                     <NavBarController loadList={this.loadList} sortbydate={this.state.sortbydate} />
                     <Drawer
@@ -320,6 +354,41 @@ class ViewContainer extends Component {
                 </>
             );
         }
+        return (
+            <>
+                {render}
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right"
+                    }}
+                    open={this.state.snackBar.open}
+                    autoHideDuration={10000}
+                    onClose={this.closeSnackBar}
+                    //onExited={handleExited}
+                    message={this.state.snackBar.message}
+                    action={
+                        <>
+                            <Button
+                                size="small"
+                                classes={{ root: classes.undo }}
+                                onClick={this.undo}
+                            >
+                                UNDO
+                            </Button>
+                            <IconButton
+                                onClick={this.closeSnackBar}
+                                aria-label="close"
+                                color="inherit"
+                                className={classes.close}
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </>
+                    }
+                />
+            </>
+        );
     }
 }
 

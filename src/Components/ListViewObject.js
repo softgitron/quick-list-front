@@ -104,7 +104,6 @@ export default function ListObject(props) {
                                     color={"primary"}
                                     checked={props.completed}
                                     onChange={() => {
-                                        console.log("Mitä mun pitäis tehdä? T: checkbox");
                                         props.toggleCompletion(props.number, !props.completed);
                                     }}
                                     value="primary"

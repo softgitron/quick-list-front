@@ -169,7 +169,7 @@ const useStyles = makeStyles(theme => ({
         background: "#858585"
     },
     textField: {
-        background: "#858585"
+        background: "#8a8a8a"
     }
 }));
 
@@ -254,62 +254,68 @@ export default function ClippedDrawer(props) {
                                 onChange={handleChange}
                                 row
                             >
-                                <Grid container spacing={0}>
+                                <Grid
+                                    container
+                                    spacing={0}
+                                    direction="row"
+                                    alignItems="center"
+                                    justify="center"
+                                >
                                     <Grid item xs={2}>
-                                        <Grid container>
+                                        <Grid container justify="center">
                                             <ThemeProvider theme={radio1}>
                                                 <FormControlLabel
                                                     value="1"
                                                     control={<Radio />}
-                                                    label="1"
+                                                    label="High"
                                                     labelPlacement="top"
                                                 />
                                             </ThemeProvider>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Grid container>
+                                        <Grid container justify="center">
                                             <ThemeProvider theme={radio2}>
                                                 <FormControlLabel
                                                     value="2"
                                                     control={<Radio className={classes.radio2} />}
-                                                    label="2"
+                                                    label="|"
                                                     labelPlacement="top"
                                                 />
                                             </ThemeProvider>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Grid container>
+                                        <Grid container justify="center">
                                             <ThemeProvider theme={radio3}>
                                                 <FormControlLabel
                                                     value="3"
                                                     control={<Radio className={classes.radio3} />}
-                                                    label="3"
+                                                    label="Medium"
                                                     labelPlacement="top"
                                                 />
                                             </ThemeProvider>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Grid container>
+                                        <Grid container justify="center">
                                             <ThemeProvider theme={radio4}>
                                                 <FormControlLabel
                                                     value="4"
                                                     control={<Radio className={classes.radio4} />}
-                                                    label="4"
+                                                    label="|"
                                                     labelPlacement="top"
                                                 />
                                             </ThemeProvider>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Grid container>
+                                        <Grid container justify="center">
                                             <ThemeProvider theme={radio5}>
                                                 <FormControlLabel
                                                     value="5"
                                                     control={<Radio className={classes.radio5} />}
-                                                    label="5"
+                                                    label="Low"
                                                     labelPlacement="top"
                                                 />
                                             </ThemeProvider>
