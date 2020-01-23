@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import NewUserView from "./NewUserView";
+import ShareListView from "./ShareListView";
 
 class NewUserController extends Component {
     constructor(props) {
@@ -50,7 +50,7 @@ class NewUserController extends Component {
     render() {
         return (
             <>
-                <NewUserView
+                <ShareListView
                     sendEmail={this.sendEmail}
                     emailChange={this.textChange}
                     qr={this.state.qr}

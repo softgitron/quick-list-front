@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PostItView from "./PostItView";
+import PostItObject from "./PostItObject";
 
 const circleColor = ["#b60a1c", "#ff684c", "#e39802", "#8ace7e", "#309143"];
 
@@ -29,7 +29,7 @@ class PostItController extends Component {
             <div ref={this.updateSize} className="box" style={this.boxStyle}>
                 {this.state.sizex ? <div style={{ height: "100%", width: "100%" }}>
                     {this.props.loadedlist.map(item => (
-                        <PostItView
+                        <PostItObject
                             key={"Tasks" + item.number}
                             number={item.number}
                             title={item.title}

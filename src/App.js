@@ -3,8 +3,8 @@ import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import ViewContainer from "./Components/ViewContainer";
 import Account from "./Components/Account";
-import NewUser from "./Components/NewUserController";
-import SignIn from "./Components/SignInController";
+import ShareListController from "./Components/ShareListController";
+import SignInController from "./Components/SignInController";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import uuid from "uuid";
@@ -85,10 +85,10 @@ class App extends Component {
                             <Account />
                         </Route>
                         <Route path="/newAccount">
-                            <NewUser />
+                            <ShareListController />
                         </Route>
                         <Route path="/signIn">
-                            <SignIn />
+                            <SignInController />
                         </Route>
                         <Route path="/*">
                             <ViewContainer

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TaskPropertiesView from "./TaskPropertiesView";
+import CreateTaskView from "./CreateTaskView";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
@@ -99,7 +99,7 @@ class TaskPropertiesController extends Component {
         return (
             <div style={{ backgroundColor: "#6e6e6e", color: "white" }}>
                 {top}
-                <TaskPropertiesView
+                <CreateTaskView
                     key={this.state.resetKey}
                     createButton={this.createDeadlineButton}
                     resetButton={this.handleReset}

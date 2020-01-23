@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import NavBarController from "./NavBarController";
-import TaskPropertiesController from "./TaskPropertiesController";
+import CreateTaskController from "./CreateTaskController";
 import Drawer from "@material-ui/core/Drawer";
 import PostItController from "./PostItController";
 import ListView from "./ListView";
@@ -254,7 +254,7 @@ class ViewContainer extends Component {
         // CSS meadiaquery (kts miten toimii material-ui kanssa), brake points
         if (this.state.onlyProperties) {
             return (
-                <TaskPropertiesController
+                <CreateTaskController
                     hideProperties={this.props.hideProperties}
                     renderOnlyProperties={this.renderOnlyProperties}
                     createDeadline={this.createDeadline}
@@ -293,7 +293,7 @@ class ViewContainer extends Component {
                         }}
                     >
                         {" "}
-                        <TaskPropertiesController
+                        <CreateTaskController
                             hideProperties={this.props.hideProperties}
                             renderOnlyProperties={this.renderOnlyProperties}
                             createDeadline={this.createDeadline}
