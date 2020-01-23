@@ -284,7 +284,7 @@ class ViewContainer extends Component {
         } else {
             return (
                 <>
-                    <NavBarController />
+                    <NavBarController loadList={this.loadList} sortbydate={this.state.sortbydate} />
                     <Drawer
                         className={classes.drawer}
                         variant="permanent"

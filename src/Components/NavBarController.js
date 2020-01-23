@@ -12,7 +12,6 @@ class NavBarController extends Component {
 
     loadListHandler = (e) => {
         this.props.loadList(this.props.sortbydate, e.target.value);
-
     }
 
     handleButtonPress() { }
