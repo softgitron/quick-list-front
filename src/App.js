@@ -38,7 +38,9 @@ class App extends Component {
                         if (data.success === false) {
                             console.log(data.message);
                         } else {
-                            document.cookie = `quicklistid=${url.split("/")[1]}`;
+                            let date = new Date();
+                            date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
+                            document.cookie = `quicklistid=${url.split("/")[1]}; expires=${date.toGMTString()};`;
                         }
                     });
             } else {

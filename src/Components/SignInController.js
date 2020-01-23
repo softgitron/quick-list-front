@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import SignInView from "./SignInView";
 
 class SignInController extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            givenId: ""
+            givenId: "",
+            redirect: false
         };
         this.updateQr = this.updateQr.bind(this);
     }
@@ -13,10 +15,10 @@ class SignInController extends Component {
     loadCookie = () => {
         console.log("loadcookie");
         if (this.state.givenId !== "") {
-            let date = new Date();
-            date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
-            document.cookie = `quicklistid=${this.state.givenId}; expires=${date.toGMTString()};`;
-            alert("Id was loaded to a cookie!");
+            //let date = new Date();
+            //date.setTime(+date + 365 * 1000 * 60 * 60 * 24);
+            //document.cookie = `quicklistid=${this.state.givenId}; expires=${date.toGMTString()};`;
+            this.setState({ redirect: true });
         } else {
             alert("Insert a valid id");
         }
@@ -39,14 +41,18 @@ class SignInController extends Component {
     };
 
     render() {
-        return (
-            <SignInView
-                givenId={this.state.givenId}
-                idChange={this.textChange}
-                loadCookie={this.loadCookie}
-                updateQr={this.updateQr}
-            />
-        );
+        if (this.state.redirect) {
+            return <Redirect to={`/${this.state.givenId}`} />
+        } else {
+            return (
+                <SignInView
+                    givenId={this.state.givenId}
+                    idChange={this.textChange}
+                    loadCookie={this.loadCookie}
+                    updateQr={this.updateQr}
+                />
+            );
+        }
     }
 }
 

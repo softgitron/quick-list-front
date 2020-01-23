@@ -32,7 +32,7 @@ class NewUserController extends Component {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.message);
-                    alert("We have sent you and email");
+                    //alert("We have sent you and email");
                 });
         }
 

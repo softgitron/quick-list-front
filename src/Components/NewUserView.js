@@ -10,6 +10,8 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import TextField from "@material-ui/core/TextField";
 import { Link as RouterLink } from "react-router-dom";
 import QRCode from "qrcode.react";
+import Snackbar from '@material-ui/core/Snackbar';
+import Grow from '@material-ui/core/Grow';
 
 function Copyright() {
     return (
@@ -83,6 +85,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewUser(props) {
     const classes = useStyles();
+    const [state, setState] = React.useState({
+        open: false,
+        Transition: Grow
+    })
+
+    const handleClick = () => {
+        setState({ ...state, open: true });
+    }
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    }
 
     return (
         <>
@@ -132,6 +145,7 @@ export default function NewUser(props) {
                                 className={classes.submit}
                                 onClick={() => {
                                     props.sendEmail();
+                                    handleClick();
                                 }}
                             >
                                 Send code to email
@@ -153,6 +167,7 @@ export default function NewUser(props) {
                     </Box>
                 </Container>
             </ThemeProvider>
+            <Snackbar open={state.open} onClose={handleClose} TransitionComponent={state.Transition} message={"Email has been sent"} />
         </>
     );
 }
