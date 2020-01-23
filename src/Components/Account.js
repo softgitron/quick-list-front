@@ -109,7 +109,7 @@ export default function Account() {
                                 color="primary"
                                 className={classes.submit}
                                 component={RouterLink}
-                                to={"/signIn"}
+                                to={"/loadList"}
                             >
                                 Load tasks with a code
                             </Button>
@@ -119,7 +119,7 @@ export default function Account() {
                                 color="primary"
                                 className={classes.submit}
                                 component={RouterLink}
-                                to={"/newAccount"}
+                                to={"/shareList"}
                             >
                                 Share link to task list
                             </Button>

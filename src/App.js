@@ -23,7 +23,7 @@ class App extends Component {
     }
 
     saveCookie = url => {
-        if (!url.includes("account") && !url.includes("newAccount") && !url.includes("signIn")) {
+        if (!url.includes("account") && !url.includes("shareList") && !url.includes("loadList")) {
             if (url.split("/")[1]) {
                 console.log("id from url");
                 fetch("api/deadline/verifyurl", {
@@ -84,10 +84,10 @@ class App extends Component {
                         <Route path="/account">
                             <Account />
                         </Route>
-                        <Route path="/newAccount">
+                        <Route path="/shareList">
                             <ShareListController />
                         </Route>
-                        <Route path="/signIn">
+                        <Route path="/loadList">
                             <SignInController />
                         </Route>
                         <Route path="/*">

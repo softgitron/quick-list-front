@@ -164,7 +164,7 @@ class ViewContainer extends Component {
         let sentid;
         const url = this.props.history.location.pathname;
         console.log(document.cookie);
-        if (!url.includes("account") && !url.includes("newAccount") && !url.includes("signIn")) {
+        if (!url.includes("account") && !url.includes("shareList") && !url.includes("loadList")) {
             //console.log(this.props.history.location.pathname);
             if (url.split("/")[1]) {
                 //console.log("split");

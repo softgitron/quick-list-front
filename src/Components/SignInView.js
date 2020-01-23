@@ -102,13 +102,13 @@ export default function SignIn(props) {
                             <LockOutlinedIcon color={"secondary"} />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Use token
+                            Scan or Insert your list ID
                         </Typography>
                         <div className={classes.form}>
                             <QrReader
                                 delay={300}
                                 showViewFinder={true}
-                                onError={value => {}}
+                                onError={value => { }}
                                 onScan={props.updateQr}
                                 style={{ width: "100%" }}
                             />
