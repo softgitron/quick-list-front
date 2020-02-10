@@ -1,3 +1,16 @@
+# Quick-list-front
+Quick list is an application made during React UI & UX codecamp course about in a week. Project was done in a group using Visual studio [liveshare](https://code.visualstudio.com/blogs/2017/11/15/live-share) functionality which enabled closer co-operation. For that reason, commits in this repo are mainly done by me, but the code inside commits are done together with the other team members.
+
+The idea of the project was to create to-do application that is as simple as possible. During the project we accidentally encountered a feature creep in its full strength and ended up making quite feature rich application. UI was still kept pretty basic for good user experience which was one of the main learning objectives of this course.
+
+## Backend
+Backend may be found from this [repo](https://github.com/JokuPelle/DeadlineApp)
+
+## Demonstration
+Demonstration may be accessed for the time being from this [page](https://qlist.ddns.net/).
+
+# General help
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
