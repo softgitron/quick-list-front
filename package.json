@@ -15,7 +15,7 @@
         "material-ui-color-picker": "^3.2.0",
         "qrcode.react": "^1.0.0",
         "react": "^16.12.0",
-        "react-dev-utils": "^10.0.0",
+        "react-dev-utils": "^11.0.4",
         "react-dom": "^16.12.0",
         "react-draggable": "^4.2.0",
         "react-qr-reader": "^2.2.1",
